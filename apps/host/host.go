@@ -38,6 +38,12 @@ type Host struct {
 	*Describe
 }
 
+// 校验方法
+func (h *Host) Validate() error {
+
+	return nil
+}
+
 type Vendor int
 
 const (

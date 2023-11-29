@@ -112,6 +112,7 @@ func (m *MySQL) GetDB() *sql.DB {
 	defer m.lock.Unlock()
 
 	// 如果实例不存在，会报错
+
 	if db == nil {
 		// 为了防止报错，db为空我们就  初始化一个全局db
 		conn, err := m.getDBConn()
@@ -122,6 +123,7 @@ func (m *MySQL) GetDB() *sql.DB {
 	}
 
 	// 到这里 db一定存在
+
 	return db
 }
 
