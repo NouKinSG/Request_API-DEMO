@@ -2,6 +2,13 @@ package host
 
 import (
 	"context"
+	"time"
+
+	"github.com/go-playground/validator/v10"
+)
+
+var (
+	validate = validator.New()
 )
 
 // host app service 的接口定义
@@ -40,8 +47,15 @@ type Host struct {
 
 // 校验方法
 func (h *Host) Validate() error {
+	return validate.Struct(h)
+}
 
-	return nil
+// 处理默认值
+func (h *Host) InjectDefault() {
+	if h.CreateAt == 0 {
+		h.CreateAt = time.Now().UnixMilli()
+	}
+
 }
 
 type Vendor int

@@ -2,11 +2,14 @@ package impl_test
 
 import (
 	"context"
+	"fmt"
 	"testing"
 
 	"gitee.com/go-course/restful-api-demo-g7/apps/host"
 	"gitee.com/go-course/restful-api-demo-g7/apps/host/impl"
+	"gitee.com/go-course/restful-api-demo-g7/conf"
 	"github.com/infraboard/mcube/logger/zap"
+	"github.com/stretchr/testify/assert"
 )
 
 var (
@@ -15,12 +18,24 @@ var (
 )
 
 func TestCreate(t *testing.T) {
+	should := assert.New(t)
+
 	ins := host.NewHost()
 	ins.Name = "test"
-	service.CreateHost(context.Background(), ins)
+	ins, err := service.CreateHost(context.Background(), ins)
+
+	if should.NoError(err) {
+		fmt.Println(ins)
+	}
+
 }
 
 func init() {
+	// 测试用例的配置文件
+	err := conf.LoadConfigFromToml("../host/apps/etc/demo.toml")
+	if err != nil {
+		panic(err)
+	}
 	// 需要初始化Logger，
 	//为什么不设计默认打印  -> 因为性能
 	zap.DevelopmentSetup()
